@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- HealthKit usage descriptions required to read/write health data -->
+	<key>NSHealthShareUsageDescription</key>
+	<string>This app requires access to your Health data to display step counts.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>This app requires permission to update Health data if you choose to allow it.</string>
 </dict>
 </plist>
