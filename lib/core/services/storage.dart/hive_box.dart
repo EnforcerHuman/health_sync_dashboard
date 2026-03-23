@@ -27,16 +27,7 @@ class StepsCacheService {
   }
 
   Future<void> clearIfStale({DateTime? now}) async {
-    final current = now ?? DateTime.now();
-    final currentDayKey = _dayKey(current);
-    final keysToDelete = _box.keys
-        .whereType<String>()
-        .where((key) => key != currentDayKey)
-        .toList();
-
-    if (keysToDelete.isNotEmpty) {
-      await _box.deleteAll(keysToDelete);
-    }
+    // History is retained per day, so there is nothing to clear here.
   }
 
   String _todayKey() => _dayKey(DateTime.now());
