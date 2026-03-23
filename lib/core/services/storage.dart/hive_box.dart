@@ -1,47 +1,49 @@
 import 'package:hive/hive.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/data/models/steps_history_model.dart';
 
 import 'hive_init.dart';
 
 class StepsCacheService {
-  static const String _stepsKey = 'today_steps';
-  static const String _updatedAtKey = 'today_steps_updated_at';
-
-  Box<dynamic> get _box => Hive.box<dynamic>(HiveInit.stepsBoxName);
+  Box<StepsHistoryModel> get _box =>
+      Hive.box<StepsHistoryModel>(HiveInit.stepsBoxName);
 
   int readSteps() {
-    return (_box.get(_stepsKey) as int?) ?? 0;
+    return _box.get(_todayKey())?.steps ?? 0;
   }
 
   DateTime? readUpdatedAt() {
-    final raw = _box.get(_updatedAtKey) as String?;
-    if (raw == null) {
-      return null;
-    }
-
-    return DateTime.tryParse(raw);
+    return _box.get(_todayKey())?.lastSyncedAt;
   }
 
   Future<void> saveSteps(int steps, {DateTime? updatedAt}) async {
-    final timestamp = (updatedAt ?? DateTime.now()).toIso8601String();
-    await _box.put(_stepsKey, steps);
-    await _box.put(_updatedAtKey, timestamp);
+    final timestamp = updatedAt ?? DateTime.now();
+    final dayKey = _dayKey(timestamp);
+    final model = StepsHistoryModel(
+      dayKey: dayKey,
+      steps: steps,
+      lastSyncedAt: timestamp,
+    );
+    await _box.put(dayKey, model);
   }
 
   Future<void> clearIfStale({DateTime? now}) async {
-    final timestamp = readUpdatedAt();
     final current = now ?? DateTime.now();
-    if (timestamp == null) {
-      return;
-    }
+    final currentDayKey = _dayKey(current);
+    final keysToDelete = _box.keys
+        .whereType<String>()
+        .where((key) => key != currentDayKey)
+        .toList();
 
-    final isSameDay =
-        timestamp.year == current.year &&
-        timestamp.month == current.month &&
-        timestamp.day == current.day;
-
-    if (!isSameDay) {
-      await _box.put(_stepsKey, 0);
-      await _box.delete(_updatedAtKey);
+    if (keysToDelete.isNotEmpty) {
+      await _box.deleteAll(keysToDelete);
     }
+  }
+
+  String _todayKey() => _dayKey(DateTime.now());
+
+  String _dayKey(DateTime date) {
+    final month = date.month.toString().padLeft(2, '0');
+    final day = date.day.toString().padLeft(2, '0');
+    return '${date.year}-$month-$day';
   }
 }
