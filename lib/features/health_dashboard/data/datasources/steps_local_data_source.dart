@@ -12,6 +12,9 @@ class StepsLocalDataSourceImpl implements StepsLocalDataSource {
 
   final StepsCacheService _cacheService;
 
+//this function first checks if the cache is stale and clears 
+//it if necessary before reading the steps. If any error occurs during this process, 
+//it throws a CacheException to be handled by the repository layer.
   @override
   Future<int> getCachedSteps() async {
     try {
@@ -22,6 +25,9 @@ class StepsLocalDataSourceImpl implements StepsLocalDataSource {
     }
   }
 
+//This function attempts to save the provided steps to the cache.
+// If any error occurs during this process, it throws a CacheException to be
+// handled by the repository layer.
   @override
   Future<void> cacheSteps(int steps) async {
     try {

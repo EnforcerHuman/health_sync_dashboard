@@ -12,7 +12,8 @@ class StepsRepositoryImpl implements StepsRepository {
 
   final StepsRemoteDataSource _remoteDataSource;
   final StepsLocalDataSource _localDataSource;
-
+// The `getCachedSteps` method attempts to retrieve the cached step count
+// from the local data source.
   @override
   Future<Either<Failure, int>> getCachedSteps() async {
     try {
@@ -23,6 +24,9 @@ class StepsRepositoryImpl implements StepsRepository {
     }
   }
 
+
+// The `fetchLatestSteps` method attempts to fetch the latest step count from 
+//the remote data source.
   @override
   Future<Either<Failure, int>> fetchLatestSteps() async {
     try {
@@ -38,6 +42,8 @@ class StepsRepositoryImpl implements StepsRepository {
     }
   }
 
+// The `startLiveStepStream` method attempts to start a live stream of step count
+// updates from the remote data source.also stroed the latest steps in cache for offline access
   @override
   Future<Either<Failure, Stream<int>>> startLiveStepStream({
     Duration interval = const Duration(seconds: 2),
