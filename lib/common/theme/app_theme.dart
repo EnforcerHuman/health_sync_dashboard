@@ -8,7 +8,7 @@ class AppTheme {
     fontFamily: 'SF Pro Display', // optional
 
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       elevation: 0,
       centerTitle: false,
       iconTheme: IconThemeData(color: AppColors.textPrimary),
@@ -30,28 +30,18 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
       ),
-      bodyLarge: TextStyle(
-        fontSize: 16,
-        color: AppColors.textPrimary,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: 14,
-        color: AppColors.textSecondary,
-      ),
+      bodyLarge: TextStyle(fontSize: 16, color: AppColors.textPrimary),
+      bodyMedium: TextStyle(fontSize: 14, color: AppColors.textSecondary),
     ),
 
     cardTheme: CardThemeData(
       color: AppColors.cardBg,
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
 
     dividerColor: AppColors.divider,
 
-    iconTheme: const IconThemeData(
-      color: AppColors.primary,
-    ),
+    iconTheme: const IconThemeData(color: AppColors.primary),
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
+import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 
 class QuickLog extends StatelessWidget {
   const QuickLog({super.key});
@@ -16,15 +17,15 @@ class QuickLog extends StatelessWidget {
             Expanded(
               child: _logCard(
                 icon: Icons.water_drop,
-                iconColor: Colors.blue,
-                bgColor: Colors.blue.shade100,
+                iconColor: AppColors.info,
+                bgColor: AppColors.surfaceInfo,
                 title: 'Water Intake',
                 value: '1,200 ml',
                 trailing: Container(
                   height: 28,
                   width: 28,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    color: AppColors.surfaceMuted,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.add, size: 18),
@@ -35,8 +36,8 @@ class QuickLog extends StatelessWidget {
             Expanded(
               child: _logCard(
                 icon: Icons.monitor_weight,
-                iconColor: Colors.teal,
-                bgColor: Colors.teal.shade100,
+                iconColor: AppColors.primaryDark,
+                bgColor: AppColors.surfaceAccent,
                 title: 'Weight',
                 value: '68.4 kg',
               ),
@@ -58,7 +59,7 @@ class QuickLog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: AppColors.surfaceMuted,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -73,7 +74,7 @@ class QuickLog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText.small(title, color: Colors.grey.shade600),
+                AppText.small(title, color: AppColors.textSecondary),
                 const SizedBox(height: 4),
                 AppText.medium(value, fontWeight: FontWeight.bold),
               ],

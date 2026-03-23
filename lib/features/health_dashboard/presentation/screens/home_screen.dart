@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
+import 'package:health_sync_dashboard/common/widgets/bottom_nav_bar.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/activity_section.dart';
 import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/heart_rate_card.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
+      bottomNavigationBar: BottomNavBar (),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.scaffoldBg,

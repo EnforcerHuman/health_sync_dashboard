@@ -70,7 +70,7 @@ class StepsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(cardRadius),
             boxShadow: [
               BoxShadow(
-                color: const Color(0x10000000),
+                color: AppColors.shadow,
                 blurRadius: shadowBlur,
                 offset: Offset(0, shadowOffsetY),
               ),

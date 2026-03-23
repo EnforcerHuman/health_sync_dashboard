@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
+import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/sleep_section/sleep_item.dart';
 
 class SleepCard extends StatelessWidget {
@@ -26,7 +27,10 @@ class SleepCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
-          colors: [Color(0xFF0D1B2A), Color(0xFF1B263B)],
+          colors: [
+            AppColors.sleepCardGradientStart,
+            AppColors.sleepCardGradientEnd,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -40,7 +44,7 @@ class SleepCard extends StatelessWidget {
               width: 180,
               height: 180,
               decoration: BoxDecoration(
-                color: Colors.teal.withValues(alpha: 0.15),
+                color: AppColors.accent.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
             ),
@@ -57,12 +61,12 @@ class SleepCard extends StatelessWidget {
                       AppText.small(
                         'DURATION',
                         letterSpacing: 1.2,
-                        color: Colors.white70,
+                        color: AppColors.textLight.withValues(alpha: 0.7),
                       ),
                       const SizedBox(height: 4),
                       AppText.large(
                         duration,
-                        color: Colors.white,
+                        color: AppColors.textLight,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
@@ -70,17 +74,17 @@ class SleepCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const AppText.small(
+                      AppText.small(
                         'QUALITY',
                         letterSpacing: 1.2,
-                        color: Colors.white70,
+                        color: AppColors.textLight.withValues(alpha: 0.7),
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
                           AppText.large(
                             '$quality',
-                            color: Colors.white,
+                            color: AppColors.textLight,
                             fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(width: 6),
@@ -90,12 +94,12 @@ class SleepCard extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.teal,
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const AppText.small(
                               'GREAT',
-                              color: Colors.white,
+                              color: AppColors.textLight,
                             ),
                           ),
                         ],

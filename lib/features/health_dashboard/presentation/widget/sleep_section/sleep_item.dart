@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
+import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 
 class SleepStatItem extends StatelessWidget {
   final String title;
@@ -14,7 +15,7 @@ class SleepStatItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.06),
+          color: AppColors.textLight.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -22,13 +23,13 @@ class SleepStatItem extends StatelessWidget {
             AppText.small(
               title,
               letterSpacing: 1,
-              color: Colors.white70,
+              color: AppColors.textLight.withValues(alpha: 0.7),
               fontWeight: FontWeight.w600,
             ),
             const SizedBox(height: 6),
             AppText.small(
               value,
-              color: Colors.white,
+              color: AppColors.textLight,
               fontWeight: FontWeight.w600,
             ),
           ],

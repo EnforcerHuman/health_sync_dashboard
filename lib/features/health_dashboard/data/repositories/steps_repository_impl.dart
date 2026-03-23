@@ -49,6 +49,8 @@ class StepsRepositoryImpl implements StepsRepository {
 
       return Right(
         stream.asyncMap((steps) async {
+
+          //storing the latest steps in cache for offline access
           await _localDataSource.cacheSteps(steps);
           return steps;
         }),
