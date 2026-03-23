@@ -21,17 +21,25 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
 
   Future<void> _onStart(StartSteps event, Emitter<StepsState> emit) async {
     emit(StepsLoadInProgress(steps: state.steps, polling: state.polling));
-    final started = await _healthService.startStepPolling((s) {
-      add(_StepsUpdated(s));
-    }, interval: event.interval);
+    await _pollSub?.cancel();
+    final stepsStream = await _healthService.startStepStream(
+      interval: event.interval,
+    );
 
-    if (!started) {
+    if (stepsStream == null) {
       emit(StepsPermissionDenied(steps: state.steps, polling: false));
+      return;
     }
+
+    _pollSub = stepsStream.listen((steps) {
+      add(_StepsUpdated(steps));
+    });
   }
 
   Future<void> _onStop(StopSteps event, Emitter<StepsState> emit) async {
-    _healthService.stopPolling();
+    await _pollSub?.cancel();
+    _pollSub = null;
+    await _healthService.stopPolling();
     final steps = await _healthService.getStepsForToday();
     emit(StepsLoadSuccess(steps: steps, polling: false));
   }
@@ -46,13 +54,18 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     PermissionRequested event,
     Emitter<StepsState> emit,
   ) async {
-    final ok = await _healthService.requestAuthorization();
-    if (!ok) {
+    emit(StepsLoadInProgress(steps: state.steps, polling: state.polling));
+    await _pollSub?.cancel();
+    final stepsStream = await _healthService.startStepStream();
+
+    if (stepsStream == null) {
       emit(StepsPermissionDenied(steps: state.steps, polling: false));
-    } else {
-      final steps = await _healthService.getStepsForToday();
-      emit(StepsLoadSuccess(steps: steps, polling: state.polling));
+      return;
     }
+
+    _pollSub = stepsStream.listen((steps) {
+      add(_StepsUpdated(steps));
+    });
   }
 
   Future<void> _onStepsUpdated(

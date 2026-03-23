@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../presentation/bloc/steps_bloc/steps_bloc.dart';
+import 'package:health_sync_dashboard/core/constants/app_colors.dart';
+
 import '../steps_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,15 +9,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        title: BlocBuilder<StepsBloc, StepsState>(
-          builder: (context, state) {
-            if (state.steps > 0 || state is! StepsInitial) {
-              return Text('Steps: ${state.steps}');
-            }
-            return const Text('Health Dashboard');
-          },
-        ),
+        elevation: 0,
+        backgroundColor: AppColors.scaffoldBg,
+        title: const Text('Health Dashboard'),
       ),
       body: Center(
         child: Column(

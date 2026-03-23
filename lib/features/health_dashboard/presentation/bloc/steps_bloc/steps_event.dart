@@ -4,7 +4,7 @@ abstract class StepsEvent {}
 
 class StartSteps extends StepsEvent {
   final Duration interval;
-  StartSteps({this.interval = const Duration(seconds: 10)});
+  StartSteps({this.interval = const Duration(seconds: 2)});
 }
 
 class StopSteps extends StepsEvent {}

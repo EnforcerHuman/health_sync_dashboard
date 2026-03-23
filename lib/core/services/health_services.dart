@@ -5,6 +5,7 @@ class HealthService {
   final Health _health = Health();
 
   Timer? _pollTimer;
+  StreamController<int>? _stepsController;
 
   /// Initialize health plugin
   Future<void> init() async {
@@ -16,6 +17,11 @@ class HealthService {
     final types = [HealthDataType.STEPS];
 
     try {
+      final hasPermission = await _health.hasPermissions(types) ?? false;
+      if (hasPermission) {
+        return true;
+      }
+
       final granted = await _health.requestAuthorization(types);
       return granted;
     } catch (e) {
@@ -23,7 +29,6 @@ class HealthService {
     }
   }
 
-  
   //  1. Getting the steps
   Future<int> getSteps(DateTime start, DateTime end) async {
     try {
@@ -65,7 +70,6 @@ class HealthService {
     }
   }
 
-  
   //  3. TODAY STEPS
   Future<int> getStepsForToday() async {
     final now = DateTime.now();
@@ -73,32 +77,36 @@ class HealthService {
     return getSteps(start, now);
   }
 
-  // 4. POLLING
-  Future<bool> startStepPolling(
-    void Function(int steps) onData, {
-    Duration interval = const Duration(seconds: 10),
+  // 4. STREAMING
+  Future<Stream<int>?> startStepStream({
+    Duration interval = const Duration(seconds: 2),
   }) async {
     await init();
 
     final authorized = await requestAuthorization();
-    if (!authorized) return false;
-
-    // initial fetch
-    final current = await getStepsForToday();
-    onData(current);
+    if (!authorized) {
+      return null;
+    }
 
     _pollTimer?.cancel();
+    await _stepsController?.close();
+    _stepsController = StreamController<int>.broadcast();
+
+    final current = await getStepsForToday();
+    _stepsController?.add(current);
 
     _pollTimer = Timer.periodic(interval, (_) async {
       final steps = await getStepsForToday();
-      onData(steps);
+      _stepsController?.add(steps);
     });
 
-    return true;
+    return _stepsController!.stream;
   }
 
-  void stopPolling() {
+  Future<void> stopPolling() async {
     _pollTimer?.cancel();
     _pollTimer = null;
+    await _stepsController?.close();
+    _stepsController = null;
   }
 }

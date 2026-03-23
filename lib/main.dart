@@ -8,7 +8,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   runApp(
-    // Provide StepsBloc at the top-level so the AppBar can read step counts.
     BlocProvider(
       create: (_) {
         final bloc = di.getIt<StepsBloc>();
@@ -23,13 +22,10 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
   theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: HomeScreen(),
