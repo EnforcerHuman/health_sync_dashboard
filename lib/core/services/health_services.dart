@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:health/health.dart';
 
+import 'package:health_sync_dashboard/core/error/exceptions.dart';
+
 class HealthService {
   final Health _health = Health();
 
@@ -25,6 +27,14 @@ class HealthService {
       final granted = await _health.requestAuthorization(types);
       return granted;
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> hasStepPermission() async {
+    try {
+      return await _health.hasPermissions([HealthDataType.STEPS]) ?? false;
+    } catch (_) {
       return false;
     }
   }
@@ -96,8 +106,22 @@ class HealthService {
     _stepsController?.add(current);
 
     _pollTimer = Timer.periodic(interval, (_) async {
+      final controller = _stepsController;
+      if (controller == null || controller.isClosed) {
+        return;
+      }
+
+      final hasPermission = await hasStepPermission();
+      if (!hasPermission) {
+        controller.addError(const PermissionException());
+        await stopPolling();
+        return;
+      }
+
       final steps = await getStepsForToday();
-      _stepsController?.add(steps);
+      if (!controller.isClosed) {
+        controller.add(steps);
+      }
     });
 
     return _stepsController!.stream;

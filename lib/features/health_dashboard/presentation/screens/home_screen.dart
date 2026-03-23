@@ -25,13 +25,17 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: const [
+                //steps section
                 StepsWidget(),
+                //heart rate section
                 SizedBox(height: 10),
                 HeartRateCard(),
+
+                //activity section
                 SizedBox(height: 10),
                 ActivitySection(calories: 1420, activeMinutes: 48),
+                //sleep section
                 SizedBox(height: 10),
-
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

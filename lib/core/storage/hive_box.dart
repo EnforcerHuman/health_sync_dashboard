@@ -27,7 +27,6 @@ class StepsCacheService {
   }
 
   Future<void> clearIfStale({DateTime? now}) async {
-    // History is retained per day, so there is nothing to clear here.
   }
 
   String _todayKey() => _dayKey(DateTime.now());

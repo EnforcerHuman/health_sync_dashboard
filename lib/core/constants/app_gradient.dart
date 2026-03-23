@@ -5,10 +5,7 @@ import 'app_colors.dart';
 /// for Sleep Card
 class AppGradients {
   static const LinearGradient sleepGradient = LinearGradient(
-    colors: [
-      AppColors.sleepCardGradientStart,
-      AppColors.sleepCardGradientEnd,
-    ],
+    colors: [AppColors.sleepCardGradientStart, AppColors.sleepCardGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

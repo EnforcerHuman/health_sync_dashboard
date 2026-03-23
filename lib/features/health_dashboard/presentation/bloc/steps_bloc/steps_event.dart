@@ -18,3 +18,8 @@ class _StepsUpdated extends StepsEvent {
   final int steps;
   _StepsUpdated(this.steps);
 }
+
+class _StepsStreamFailed extends StepsEvent {
+  final Failure failure;
+  _StepsStreamFailed(this.failure);
+}

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:health_sync_dashboard/core/error/errors.dart';
+import 'package:health_sync_dashboard/core/error/exceptions.dart';
 
 import 'package:health_sync_dashboard/features/health_dashboard/domain/usecases/fetch_latest_steps.dart';
 import 'package:health_sync_dashboard/features/health_dashboard/domain/usecases/get_cached_steps.dart';
@@ -33,6 +34,7 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     on<RefreshSteps>(_onRefresh);
     on<PermissionRequested>(_onPermissionRequested);
     on<_StepsUpdated>(_onStepsUpdated);
+    on<_StepsStreamFailed>(_onStepsStreamFailed);
   }
 
   Future<void> _onStart(StartSteps event, Emitter<StepsState> emit) async {
@@ -48,9 +50,14 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     streamResult.fold((failure) => _emitFailure(failure, emit, cachedSteps), (
       stepsStream,
     ) {
-      _pollSub = stepsStream.listen((steps) {
-        add(_StepsUpdated(steps));
-      });
+      _pollSub = stepsStream.listen(
+        (steps) {
+          add(_StepsUpdated(steps));
+        },
+        onError: (error, _) {
+          add(_StepsStreamFailed(_mapStreamError(error)));
+        },
+      );
     });
   }
 
@@ -84,9 +91,14 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     streamResult.fold((failure) => _emitFailure(failure, emit, state.steps), (
       stepsStream,
     ) {
-      _pollSub = stepsStream.listen((steps) {
-        add(_StepsUpdated(steps));
-      });
+      _pollSub = stepsStream.listen(
+        (steps) {
+          add(_StepsUpdated(steps));
+        },
+        onError: (error, _) {
+          add(_StepsStreamFailed(_mapStreamError(error)));
+        },
+      );
     });
   }
 
@@ -97,6 +109,16 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     emit(StepsLoadSuccess(steps: event.steps, polling: true));
   }
 
+  Future<void> _onStepsStreamFailed(
+    _StepsStreamFailed event,
+    Emitter<StepsState> emit,
+  ) async {
+    await _pollSub?.cancel();
+    _pollSub = null;
+    await _stopLiveUpdates();
+    _emitFailure(event.failure, emit, state.steps);
+  }
+
   void _emitFailure(Failure failure, Emitter<StepsState> emit, int steps) {
     if (failure is PermissionFailure) {
       emit(StepsPermissionDenied(steps: steps, polling: false));
@@ -104,6 +126,19 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     }
 
     emit(StepsLoadSuccess(steps: steps, polling: false));
+  }
+
+  Failure _mapStreamError(Object error) {
+    if (error is PermissionException) {
+      return PermissionFailure(error.message);
+    }
+    if (error is HealthException) {
+      return HealthFailure(error.message);
+    }
+    if (error is CacheException) {
+      return CacheFailure(error.message);
+    }
+    return const HealthFailure();
   }
 
   @override
