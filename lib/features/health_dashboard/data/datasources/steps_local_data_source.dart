@@ -1,5 +1,5 @@
 import 'package:health_sync_dashboard/core/error/exceptions.dart';
-import 'package:health_sync_dashboard/core/services/storage.dart/hive_box.dart';
+import 'package:health_sync_dashboard/core/storage/hive_box.dart';
 
 abstract class StepsLocalDataSource {
   Future<int> getCachedSteps();

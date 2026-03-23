@@ -35,5 +35,6 @@ class AppColors {
   static const Color heart = Color(0xFFE63946);
   static const Color sleepCardGradientStart = Color(0xFF0D1B2A);
   static const Color sleepCardGradientEnd = Color(0xFF1B263B);
+  static const Color avatarBg = Color(0xFFE8A87C);
   static const Color shadow = Color(0x10000000);
 }

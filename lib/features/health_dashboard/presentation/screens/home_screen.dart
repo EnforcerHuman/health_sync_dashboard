@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:health_sync_dashboard/common/widgets/app_bar.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
 import 'package:health_sync_dashboard/common/widgets/bottom_nav_bar.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
-import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/activity_section.dart';
-import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/heart_rate_card.dart';
-import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/quick_log_section/quick_log.dart';
-import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/sleep_section/sleep_card.dart';
-
-import '../steps_widget.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widgets/activity/activity_section.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widgets/heart_rate/heart_rate_card.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widgets/quick_log/quick_log.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widgets/sleep/sleep_card.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widgets/steps/steps_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,12 +16,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
-      bottomNavigationBar: BottomNavBar (),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.scaffoldBg,
-        title: const AppText.large('Health Dashboard'),
-      ),
+      bottomNavigationBar: const BottomNavBar(),
+      appBar: CommonAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

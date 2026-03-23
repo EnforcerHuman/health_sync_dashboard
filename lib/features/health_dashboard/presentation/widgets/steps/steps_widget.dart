@@ -6,7 +6,7 @@ import 'package:health_sync_dashboard/common/widgets/app_text.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import 'bloc/steps_bloc/steps_bloc.dart';
+import '../../bloc/steps_bloc/steps_bloc.dart';
 
 class StepsWidget extends StatelessWidget {
   const StepsWidget({super.key});

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/common/widgets/app_text.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
-import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/sleep_section/sleep_item.dart';
+
+import 'sleep_item.dart';
 
 class SleepCard extends StatelessWidget {
   final String duration;

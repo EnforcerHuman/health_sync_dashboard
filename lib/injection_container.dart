@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 
 import 'core/services/health_services.dart';
-import 'core/services/storage.dart/hive_box.dart';
-import 'core/services/storage.dart/hive_init.dart';
+import 'core/storage/hive_box.dart';
+import 'core/storage/hive_init.dart';
 import 'features/health_dashboard/data/datasources/steps_local_data_source.dart';
 import 'features/health_dashboard/data/datasources/steps_remote_data_source.dart';
 import 'features/health_dashboard/data/repositories/steps_repository_impl.dart';
