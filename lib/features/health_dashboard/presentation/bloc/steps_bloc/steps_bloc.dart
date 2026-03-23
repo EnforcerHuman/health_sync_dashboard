@@ -43,7 +43,9 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
       (_) => state.steps,
       (r) => r,
     );
-    emit(StepsLoadSuccess(steps: cachedSteps, polling: false));
+    if (cachedSteps > 0) {
+      emit(StepsLoadSuccess(steps: cachedSteps, polling: false));
+    }
 
     await _pollSub?.cancel();
     final streamResult = await _startLiveStepStream(interval: event.interval);

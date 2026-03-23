@@ -54,6 +54,10 @@ class StepsWidget extends StatelessWidget {
         final loadingGap = (baseHeight * 0.022) * _cardScale;
         final helperTextSize = (baseWidth * 0.03) * _cardScale;
         final permissionTextGap = (baseHeight * 0.01) * _cardScale;
+        final loaderSize = gaugeSize * 0.2;
+        final loaderStrokeWidth = gaugeSize * 0.03;
+        final isInitialLoading =
+            state is StepsLoadInProgress && state.steps == 0 && !state.polling;
 
         return Container(
           width: cardWidth,
@@ -90,65 +94,94 @@ class StepsWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(height: gapAfterTitle),
-              SizedBox(
-                width: gaugeSize,
-                height: gaugeSize,
-                child: SfRadialGauge(
-                  axes: [
-                    RadialAxis(
-                      minimum: 0,
-                      maximum: 100,
-                      startAngle: 270,
-                      endAngle: 270,
-                      showTicks: false,
-                      showLabels: false,
-                      axisLineStyle: const AxisLineStyle(
-                        thickness: 0.12,
-                        thicknessUnit: GaugeSizeUnit.factor,
-                        color: AppColors.divider,
-                        cornerStyle: CornerStyle.bothCurve,
+              if (isInitialLoading)
+                SizedBox(
+                  width: gaugeSize,
+                  height: gaugeSize,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: loaderSize,
+                        height: loaderSize,
+                        child: CircularProgressIndicator(
+                          strokeWidth: loaderStrokeWidth,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.primary,
+                          ),
+                          backgroundColor: AppColors.divider,
+                        ),
                       ),
-                      pointers: [
-                        RangePointer(
-                          value: status.toDouble(),
-                          width: 0.12,
-                          sizeUnit: GaugeSizeUnit.factor,
+                      SizedBox(height: loadingGap),
+                      AppText.medium(
+                        'Loading steps...',
+                        fontSize: subtitleSize,
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                )
+              else
+                SizedBox(
+                  width: gaugeSize,
+                  height: gaugeSize,
+                  child: SfRadialGauge(
+                    axes: [
+                      RadialAxis(
+                        minimum: 0,
+                        maximum: 100,
+                        startAngle: 270,
+                        endAngle: 270,
+                        showTicks: false,
+                        showLabels: false,
+                        axisLineStyle: const AxisLineStyle(
+                          thickness: 0.12,
+                          thicknessUnit: GaugeSizeUnit.factor,
+                          color: AppColors.divider,
                           cornerStyle: CornerStyle.bothCurve,
-                          gradient: const SweepGradient(
-                            colors: [AppColors.primary, AppColors.accent],
-                            stops: [0.2, 1.0],
-                          ),
                         ),
-                      ],
-                      annotations: [
-                        GaugeAnnotation(
-                          angle: 90,
-                          positionFactor: 0.05,
-                          widget: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              AppText.large(
-                                _formatSteps(steps),
-                                fontSize: countSize,
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.w700,
-                                height: 1,
-                              ),
-                              SizedBox(height: gaugeLabelGap),
-                              AppText.medium(
-                                'Steps',
-                                fontSize: subtitleSize,
-                                color: AppColors.textSecondary,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
+                        pointers: [
+                          RangePointer(
+                            value: status.toDouble(),
+                            width: 0.12,
+                            sizeUnit: GaugeSizeUnit.factor,
+                            cornerStyle: CornerStyle.bothCurve,
+                            gradient: const SweepGradient(
+                              colors: [AppColors.primary, AppColors.accent],
+                              stops: [0.2, 1.0],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                        annotations: [
+                          GaugeAnnotation(
+                            angle: 90,
+                            positionFactor: 0.05,
+                            widget: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppText.large(
+                                  _formatSteps(steps),
+                                  fontSize: countSize,
+                                  color: AppColors.textPrimary,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1,
+                                ),
+                                SizedBox(height: gaugeLabelGap),
+                                AppText.medium(
+                                  'Steps',
+                                  fontSize: subtitleSize,
+                                  color: AppColors.textSecondary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               SizedBox(height: statsTopGap),
               Row(
                 children: [
