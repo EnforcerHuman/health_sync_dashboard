@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HeartRateCard extends StatelessWidget {
@@ -19,11 +20,11 @@ class HeartRateCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: AppColors.textPrimary.withOpacity(0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -41,19 +42,19 @@ class HeartRateCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 1.2,
-                  color: Colors.grey,
+                  color: AppColors.textSecondary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFDECEC),
+                  color: AppColors.heart.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   Icons.favorite,
-                  color: Color(0xFFE63946),
+                  color: AppColors.heart,
                   size: 18,
                 ),
               )
@@ -71,6 +72,7 @@ class HeartRateCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
                 ),
               ),
               SizedBox(width: 4),
@@ -80,7 +82,7 @@ class HeartRateCard extends StatelessWidget {
                   "BPM",
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: AppColors.textSecondary,
                   ),
                 ),
               )
@@ -106,7 +108,7 @@ class HeartRateCard extends StatelessWidget {
                   dataSource: chartData,
                   xValueMapper: (data, _) => data.x,
                   yValueMapper: (data, _) => data.y,
-                  color: const Color(0xFF0E6F73),
+                  color: AppColors.primaryDark,
                   width: 2,
                 )
               ],

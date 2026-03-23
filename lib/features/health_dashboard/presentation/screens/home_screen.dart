@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
+import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/activity_section.dart';
 import 'package:health_sync_dashboard/features/health_dashboard/presentation/widget/heart_rate_card.dart';
 
 import '../steps_widget.dart';
@@ -25,7 +26,12 @@ class HomeScreen extends StatelessWidget {
               children: const [
                 StepsWidget(),
                 SizedBox(height: 10,)
-               ,HeartRateCard()],
+               ,HeartRateCard(),
+                 SizedBox(height: 10,),
+               ActivitySection(
+              calories: 1420,
+              activeMinutes: 48),
+               ],
             ),
           ),
         ),
