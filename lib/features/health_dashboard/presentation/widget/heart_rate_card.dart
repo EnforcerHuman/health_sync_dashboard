@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_sync_dashboard/common/widgets/app_text.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -24,7 +25,7 @@ class HeartRateCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.textPrimary.withOpacity(0.03),
+            color: AppColors.textPrimary.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -33,23 +34,19 @@ class HeartRateCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Top Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "HEART RATE",
-                style: TextStyle(
-                  fontSize: 12,
-                  letterSpacing: 1.2,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w600,
-                ),
+              const AppText.small(
+                'HEART RATE',
+                letterSpacing: 1.2,
+                color: AppColors.textSecondary,
+                fontWeight: FontWeight.w600,
               ),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.heart.withOpacity(0.12),
+                  color: AppColors.heart.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -57,52 +54,33 @@ class HeartRateCard extends StatelessWidget {
                   color: AppColors.heart,
                   size: 18,
                 ),
-              )
+              ),
             ],
           ),
-
           const SizedBox(height: 8),
-
-          /// BPM Text
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
-              Text(
-                "72",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
+            children: [
+              AppText.large(
+                '72',
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
               Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  "BPM",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              )
+                padding: const EdgeInsets.only(bottom: 4),
+                child: AppText.small('BPM', color: AppColors.textSecondary),
+              ),
             ],
           ),
-
           const SizedBox(height: 16),
-
-          /// Syncfusion Chart
           SizedBox(
             height: 70,
             child: SfCartesianChart(
               plotAreaBorderWidth: 0,
               margin: EdgeInsets.zero,
-              primaryXAxis: const CategoryAxis(
-                isVisible: false,
-              ),
-              primaryYAxis: const NumericAxis(
-                isVisible: false,
-              ),
+              primaryXAxis: const CategoryAxis(isVisible: false),
+              primaryYAxis: const NumericAxis(isVisible: false),
               series: <CartesianSeries<HeartRateData, int>>[
                 SplineSeries<HeartRateData, int>(
                   dataSource: chartData,
@@ -110,7 +88,7 @@ class HeartRateCard extends StatelessWidget {
                   yValueMapper: (data, _) => data.y,
                   color: AppColors.primaryDark,
                   width: 2,
-                )
+                ),
               ],
             ),
           ),
@@ -119,7 +97,6 @@ class HeartRateCard extends StatelessWidget {
     );
   }
 }
-
 
 class HeartRateData {
   final int x;

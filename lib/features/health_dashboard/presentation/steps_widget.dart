@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync_dashboard/common/widgets/app_text.dart';
 import 'package:health_sync_dashboard/core/constants/app_colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -80,14 +81,12 @@ class StepsWidget extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: AppText.small(
                   'DAILY ACTIVITY',
-                  style: TextStyle(
-                    fontSize: titleSize,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: titleSpacing,
-                    color: AppColors.textSecondary,
-                  ),
+                  fontSize: titleSize,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: titleSpacing,
                 ),
               ),
               SizedBox(height: gapAfterTitle),
@@ -128,23 +127,19 @@ class StepsWidget extends StatelessWidget {
                           widget: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              AppText.large(
                                 _formatSteps(steps),
-                                style: TextStyle(
-                                  fontSize: countSize,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary,
-                                  height: 1,
-                                ),
+                                fontSize: countSize,
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w700,
+                                height: 1,
                               ),
                               SizedBox(height: gaugeLabelGap),
-                              Text(
+                              AppText.medium(
                                 'Steps',
-                                style: TextStyle(
-                                  fontSize: subtitleSize,
-                                  color: AppColors.textSecondary,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                fontSize: subtitleSize,
+                                color: AppColors.textSecondary,
+                                fontWeight: FontWeight.w500,
                               ),
                             ],
                           ),
@@ -204,12 +199,10 @@ class StepsWidget extends StatelessWidget {
               ),
               if (state is StepsLoadInProgress) ...[
                 SizedBox(height: loadingGap),
-                Text(
+                AppText.small(
                   'Updating...',
-                  style: TextStyle(
-                    fontSize: helperTextSize,
-                    color: AppColors.textSecondary,
-                  ),
+                  fontSize: helperTextSize,
+                  color: AppColors.textSecondary,
                 ),
               ],
               if (state is StepsPermissionDenied) ...[
@@ -217,16 +210,17 @@ class StepsWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () =>
                       context.read<StepsBloc>().add(PermissionRequested()),
-                  child: const Text('Request Permission'),
+                  child: const AppText.small(
+                    'Request Permission',
+                    color: AppColors.textLight,
+                  ),
                 ),
                 SizedBox(height: permissionTextGap),
-                Text(
+                AppText.small(
                   'Permission denied. Please enable permissions in system settings.',
+                  fontSize: helperTextSize,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.danger,
-                    fontSize: helperTextSize,
-                  ),
+                  color: AppColors.danger,
                 ),
               ],
             ],
@@ -276,23 +270,19 @@ class _StepsStat extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        AppText.small(
           label,
-          style: TextStyle(
-            fontSize: labelSize,
-            fontWeight: FontWeight.w600,
-            letterSpacing: labelSpacing,
-            color: AppColors.textSecondary,
-          ),
+          fontSize: labelSize,
+          color: AppColors.textSecondary,
+          fontWeight: FontWeight.w600,
+          letterSpacing: labelSpacing,
         ),
         SizedBox(height: valueGap),
-        Text(
+        AppText.medium(
           value,
-          style: TextStyle(
-            fontSize: valueSize,
-            fontWeight: FontWeight.w700,
-            color: valueColor,
-          ),
+          fontSize: valueSize,
+          color: valueColor,
+          fontWeight: FontWeight.w700,
         ),
       ],
     );
