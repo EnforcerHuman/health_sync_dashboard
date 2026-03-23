@@ -54,185 +54,182 @@ class StepsWidget extends StatelessWidget {
         final helperTextSize = (baseWidth * 0.03) * _cardScale;
         final permissionTextGap = (baseHeight * 0.01) * _cardScale;
 
-        return Padding(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            width: cardWidth,
-            margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
-            constraints: BoxConstraints(minHeight: cardHeight),
-            padding: EdgeInsets.fromLTRB(
-              cardPaddingX,
-              cardPaddingTop,
-              cardPaddingX,
-              cardPaddingBottom,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.cardBg,
-              borderRadius: BorderRadius.circular(cardRadius),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0x10000000),
-                  blurRadius: shadowBlur,
-                  offset: Offset(0, shadowOffsetY),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'DAILY ACTIVITY',
-                    style: TextStyle(
-                      fontSize: titleSize,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: titleSpacing,
-                      color: AppColors.textSecondary,
-                    ),
+        return Container(
+          width: cardWidth,
+          margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
+          constraints: BoxConstraints(minHeight: cardHeight),
+          padding: EdgeInsets.fromLTRB(
+            cardPaddingX,
+            cardPaddingTop,
+            cardPaddingX,
+            cardPaddingBottom,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.cardBg,
+            borderRadius: BorderRadius.circular(cardRadius),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0x10000000),
+                blurRadius: shadowBlur,
+                offset: Offset(0, shadowOffsetY),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'DAILY ACTIVITY',
+                  style: TextStyle(
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: titleSpacing,
+                    color: AppColors.textSecondary,
                   ),
                 ),
-                SizedBox(height: gapAfterTitle),
-                SizedBox(
-                  width: gaugeSize,
-                  height: gaugeSize,
-                  child: SfRadialGauge(
-                    axes: [
-                      RadialAxis(
-                        minimum: 0,
-                        maximum: 100,
-                        startAngle: 270,
-                        endAngle: 270,
-                        showTicks: false,
-                        showLabels: false,
-                        axisLineStyle: const AxisLineStyle(
-                          thickness: 0.12,
-                          thicknessUnit: GaugeSizeUnit.factor,
-                          color: AppColors.divider,
+              ),
+              SizedBox(height: gapAfterTitle),
+              SizedBox(
+                width: gaugeSize,
+                height: gaugeSize,
+                child: SfRadialGauge(
+                  axes: [
+                    RadialAxis(
+                      minimum: 0,
+                      maximum: 100,
+                      startAngle: 270,
+                      endAngle: 270,
+                      showTicks: false,
+                      showLabels: false,
+                      axisLineStyle: const AxisLineStyle(
+                        thickness: 0.12,
+                        thicknessUnit: GaugeSizeUnit.factor,
+                        color: AppColors.divider,
+                        cornerStyle: CornerStyle.bothCurve,
+                      ),
+                      pointers: [
+                        RangePointer(
+                          value: status.toDouble(),
+                          width: 0.12,
+                          sizeUnit: GaugeSizeUnit.factor,
                           cornerStyle: CornerStyle.bothCurve,
+                          gradient: const SweepGradient(
+                            colors: [AppColors.primary, AppColors.accent],
+                            stops: [0.2, 1.0],
+                          ),
                         ),
-                        pointers: [
-                          RangePointer(
-                            value: status.toDouble(),
-                            width: 0.12,
-                            sizeUnit: GaugeSizeUnit.factor,
-                            cornerStyle: CornerStyle.bothCurve,
-                            gradient: const SweepGradient(
-                              colors: [AppColors.primary, AppColors.accent],
-                              stops: [0.2, 1.0],
-                            ),
-                          ),
-                        ],
-                        annotations: [
-                          GaugeAnnotation(
-                            angle: 90,
-                            positionFactor: 0.05,
-                            widget: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  _formatSteps(steps),
-                                  style: TextStyle(
-                                    fontSize: countSize,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
-                                    height: 1,
-                                  ),
+                      ],
+                      annotations: [
+                        GaugeAnnotation(
+                          angle: 90,
+                          positionFactor: 0.05,
+                          widget: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _formatSteps(steps),
+                                style: TextStyle(
+                                  fontSize: countSize,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                  height: 1,
                                 ),
-                                SizedBox(height: gaugeLabelGap),
-                                Text(
-                                  'Steps',
-                                  style: TextStyle(
-                                    fontSize: subtitleSize,
-                                    color: AppColors.textSecondary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              ),
+                              SizedBox(height: gaugeLabelGap),
+                              Text(
+                                'Steps',
+                                style: TextStyle(
+                                  fontSize: subtitleSize,
+                                  color: AppColors.textSecondary,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: statsTopGap),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _StepsStat(
-                        label: 'GOAL',
-                        value: _formatSteps(_goalSteps),
-                        valueColor: AppColors.textPrimary,
-                        labelSize: statLabelSize,
-                        valueSize: statValueSize,
-                        labelSpacing: statLabelSpacing,
-                        valueGap: statValueGap,
-                      ),
-                    ),
-                    _StatDivider(
-                      width: dividerWidth,
-                      height: dividerHeight,
-                      margin: dividerMargin,
-                    ),
-                    Expanded(
-                      child: _StepsStat(
-                        label: 'LEFT',
-                        value: _formatSteps(stepsLeft),
-                        valueColor: AppColors.primary,
-                        labelSize: statLabelSize,
-                        valueSize: statValueSize,
-                        labelSpacing: statLabelSpacing,
-                        valueGap: statValueGap,
-                      ),
-                    ),
-                    _StatDivider(
-                      width: dividerWidth,
-                      height: dividerHeight,
-                      margin: dividerMargin,
-                    ),
-                    Expanded(
-                      child: _StepsStat(
-                        label: 'STATUS',
-                        value: '$status%',
-                        valueColor: AppColors.primary,
-                        labelSize: statLabelSize,
-                        valueSize: statValueSize,
-                        labelSpacing: statLabelSpacing,
-                        valueGap: statValueGap,
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                if (state is StepsLoadInProgress) ...[
-                  SizedBox(height: loadingGap),
-                  Text(
-                    'Updating...',
-                    style: TextStyle(
-                      fontSize: helperTextSize,
-                      color: AppColors.textSecondary,
+              ),
+              SizedBox(height: statsTopGap),
+              Row(
+                children: [
+                  Expanded(
+                    child: _StepsStat(
+                      label: 'GOAL',
+                      value: _formatSteps(_goalSteps),
+                      valueColor: AppColors.textPrimary,
+                      labelSize: statLabelSize,
+                      valueSize: statValueSize,
+                      labelSpacing: statLabelSpacing,
+                      valueGap: statValueGap,
+                    ),
+                  ),
+                  _StatDivider(
+                    width: dividerWidth,
+                    height: dividerHeight,
+                    margin: dividerMargin,
+                  ),
+                  Expanded(
+                    child: _StepsStat(
+                      label: 'LEFT',
+                      value: _formatSteps(stepsLeft),
+                      valueColor: AppColors.primary,
+                      labelSize: statLabelSize,
+                      valueSize: statValueSize,
+                      labelSpacing: statLabelSpacing,
+                      valueGap: statValueGap,
+                    ),
+                  ),
+                  _StatDivider(
+                    width: dividerWidth,
+                    height: dividerHeight,
+                    margin: dividerMargin,
+                  ),
+                  Expanded(
+                    child: _StepsStat(
+                      label: 'STATUS',
+                      value: '$status%',
+                      valueColor: AppColors.primary,
+                      labelSize: statLabelSize,
+                      valueSize: statValueSize,
+                      labelSpacing: statLabelSpacing,
+                      valueGap: statValueGap,
                     ),
                   ),
                 ],
-                if (state is StepsPermissionDenied) ...[
-                  SizedBox(height: loadingGap),
-                  ElevatedButton(
-                    onPressed: () =>
-                        context.read<StepsBloc>().add(PermissionRequested()),
-                    child: const Text('Request Permission'),
+              ),
+              if (state is StepsLoadInProgress) ...[
+                SizedBox(height: loadingGap),
+                Text(
+                  'Updating...',
+                  style: TextStyle(
+                    fontSize: helperTextSize,
+                    color: AppColors.textSecondary,
                   ),
-                  SizedBox(height: permissionTextGap),
-                  Text(
-                    'Permission denied. Please enable permissions in system settings.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.danger,
-                      fontSize: helperTextSize,
-                    ),
-                  ),
-                ],
+                ),
               ],
-            ),
+              if (state is StepsPermissionDenied) ...[
+                SizedBox(height: loadingGap),
+                ElevatedButton(
+                  onPressed: () =>
+                      context.read<StepsBloc>().add(PermissionRequested()),
+                  child: const Text('Request Permission'),
+                ),
+                SizedBox(height: permissionTextGap),
+                Text(
+                  'Permission denied. Please enable permissions in system settings.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.danger,
+                    fontSize: helperTextSize,
+                  ),
+                ),
+              ],
+            ],
           ),
         );
       },
