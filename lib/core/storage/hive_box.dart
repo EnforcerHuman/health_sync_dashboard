@@ -8,6 +8,7 @@ class StepsCacheService {
       Hive.box<StepsHistoryModel>(HiveInit.stepsBoxName);
 
   int readSteps() {
+    print('Reading steps from cache for key: ${_box.get(_todayKey())?.steps ?? 0}');
     return _box.get(_todayKey())?.steps ?? 0;
   }
 
